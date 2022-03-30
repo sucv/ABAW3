@@ -21,7 +21,7 @@ In main.py:
 - In 1.4, to resume an instance, add -resume 1 to the command. For example, `python main.py -resume 0` will start a fresh run, and `python main.py -resume 1` with continue an existing instance from the checkpoint.
 - In 1.5, to efficiently debug, specify `-debug 1` so that only one trial will be loaded for each fold.
 - In 1.7, specify `-emotion` to either `arousal` or `valence`.
-- In 2.1, specify `-folds_to_run` to 0-6. For example, `-folds_to_run 0` runs fold 0. `-folds_to_run 0 1 2` runs fold 0, fold 1, and fold 2 in a row.
+- In 2.1, specify `-folds_to_run` to 0-5. For example, `-folds_to_run 0` runs fold 0. `-folds_to_run 0 1 2` runs fold 0, fold 1, and fold 2 in a row.
 
 ### Run the code
 
