@@ -69,6 +69,18 @@ The results will be saved in your specified `-save_path`, which include:
 - trained model state dict and the checkpoint;
 - predictions on unseen partition.
 
+### Please cite our paper
+
+```
+@article{zhang2022continuous,
+  title={Continuous Emotion Recognition using Visual-audio-linguistic information: A Technical Report for ABAW3},
+  author={Zhang, Su and An, Ruyi and Ding, Yi and Guan, Cuntai},
+  journal={arXiv preprint arXiv:2203.13031},
+  year={2022}}
+```
+
+
+
 
 
 
