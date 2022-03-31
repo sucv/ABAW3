@@ -53,32 +53,9 @@ config = {
         },
         "kernel_size": 5,
         "dropout": 0.1,
-        "attention": 0,
     },
-
-    # "tcn": {
-    #     "embedding_dim": VIDEO_EMBEDDING_DIM,
-    #     "channels": {
-    #         'video': [VIDEO_EMBEDDING_DIM // 2, VIDEO_EMBEDDING_DIM // 2, VIDEO_EMBEDDING_DIM // 4,
-    #                   VIDEO_EMBEDDING_DIM // 4],
-    #         'cnn_res50': [VIDEO_EMBEDDING_DIM // 2, VIDEO_EMBEDDING_DIM // 2, VIDEO_EMBEDDING_DIM // 4,
-    #                       VIDEO_EMBEDDING_DIM // 4],
-    #         'mfcc': [MFCC_TEMPORAL_DIM, MFCC_TEMPORAL_DIM, MFCC_TEMPORAL_DIM, MFCC_TEMPORAL_DIM],
-    #         'vggish': [VGGISH_DIM // 2, VGGISH_DIM // 2, VGGISH_DIM // 4, VGGISH_DIM // 4],
-    #         'egemaps': [EGEMAPS_TEMPORAL_DIM, EGEMAPS_TEMPORAL_DIM, EGEMAPS_TEMPORAL_DIM, EGEMAPS_TEMPORAL_DIM],
-    #         'bert': [BERT_TEMPORAL_DIM // 2, BERT_TEMPORAL_DIM // 2, BERT_TEMPORAL_DIM // 4, BERT_TEMPORAL_DIM // 4]
-    #     },
-    #     "kernel_size": 5,
-    #     "dropout": 0.1,
-    #     "attention": 0,
-    # },
-
-    "time_delay": 0,
-    "metrics": ["rmse", "pcc", "ccc"],
-    "save_plot": 0,
 
     "backbone": {
         "state_dict": "res50_ir_0.887",
-        "mode": "ir",
     },
 }

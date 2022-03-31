@@ -153,11 +153,6 @@ class GenericExperiment(GenericImageExperiment):
         raise NotImplementedError
 
     @staticmethod
-    def get_time_delay(config):
-        time_delay = config['time_delay']
-        return time_delay
-
-    @staticmethod
     def get_feature_dimension(config):
         feature_dimension = config['feature_dimension']
         return feature_dimension

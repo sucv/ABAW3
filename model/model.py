@@ -1,13 +1,11 @@
 from model.arcface_model import Backbone
 from model.temporal_convolutional_model import TemporalConvNet
-from model.transformer import MultimodalTransformerEncoder, IntraModalTransformerEncoder, InterModalTransformerEncoder
+from model.transformer import MultimodalTransformerEncoder
 
-import math
 import os
 import torch
 from torch import nn
 
-import numpy as np
 
 from torch.nn import Linear, BatchNorm1d, BatchNorm2d, Dropout, Sequential, Module
 
@@ -92,7 +90,6 @@ class LeaderFollowerAttentionNetworkWithMultiHead(nn.Module):
         self.spatial = None
 
     def init(self):
-        self.output_dim = 1
 
         spatial = my_res50(mode='ir', use_pretrained=False)
         state_dict = torch.load(os.path.join(self.root_dir, self.backbone_state_dict + ".pth"), map_location='cpu')
@@ -105,15 +102,15 @@ class LeaderFollowerAttentionNetworkWithMultiHead(nn.Module):
 
         for modal in self.modality:
 
-            self.temporal[modal] = TemporalConvNet(num_inputs=self.embedding_dim[modal], max_length=self.example_length,
-                                                   num_channels=self.tcn_channel[modal], attention=self.tcn_attention,
+            self.temporal[modal] = TemporalConvNet(num_inputs=self.embedding_dim[modal],
+                                                   num_channels=self.tcn_channel[modal],
                                                    kernel_size=self.kernel_size, dropout=0.1).to(self.device)
 
         self.fusion = MultimodalTransformerEncoder(modalities=self.modality, input_dim=self.encoder_dim,
                                                    modal_dim=self.modal_dim, num_heads=self.num_heads,
                                                    dropout=0.1)
 
-        self.regressor = nn.Linear(self.final_dim, self.output_dim)
+        self.regressor = nn.Linear(self.final_dim, 1)
 
     def forward(self, x):
 
@@ -121,25 +118,26 @@ class LeaderFollowerAttentionNetworkWithMultiHead(nn.Module):
             batch_size, _, channel, width, height = x['video'].shape
             x['video'] = x['video'].view(-1, channel, width, height)
             x['video'] = self.spatial(x['video'])
-            _, feature_dim = x['video'].shape
-            x['video'] = x['video'].view(batch_size, self.example_length, feature_dim).transpose(1, 2).contiguous()
+            x['video'] = x['video'].view(batch_size, self.example_length, -1).transpose(1, 2).contiguous()
         else:
             batch_size, _, _, _ = x[self.modality[0]].shape
 
         for modal in self.modality:
             if modal != 'video':
-                if len(x[modal]) > 1:
+
+                if len(x[modal]) > 1: # When batch_size > 1
                     x[modal] = x[modal].squeeze().transpose(1, 2).contiguous().float()
-                else:
+                else: # When batch_size = 1
                     x[modal] = x[modal].squeeze()[None, :, :].transpose(1, 2).contiguous().float()
 
+            # Three parallel TCNs
             x[modal] = self.temporal[modal](x[modal]).transpose(1, 2).contiguous()
 
+        # Co-attention fusion block
         follower = self.fusion(x)
 
         x = torch.cat((x[self.modality[0]], follower), dim=-1)
         x = self.regressor(x)
-        x = x.view(batch_size, self.example_length, -1)
 
         return x
 

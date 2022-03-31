@@ -5,7 +5,7 @@ from trainer import Trainer
 
 from dataset import DataArranger, Dataset
 from base.checkpointer import Checkpointer
-from model.model import LeaderFollowerAttentionNetwork, LeaderFollowerAttentionNetworkWithMultiHead, LeaderFollowerAttentionNetworkWithIntraInterAttention
+from model.model import LeaderFollowerAttentionNetworkWithMultiHead
 
 from base.parameter_control import ResnetParamControl
 
@@ -19,11 +19,14 @@ class Experiment(GenericExperiment):
         self.release_count = args.release_count
         self.gradual_release = args.gradual_release
         self.milestone = args.milestone
-        self.backbone_mode = "ir"
         self.min_num_epochs = args.min_num_epochs
         self.num_epochs = args.num_epochs
         self.early_stopping = args.early_stopping
         self.load_best_at_each_epoch = args.load_best_at_each_epoch
+
+        self.save_plot = args.save_plot
+        self.metrics = args.metrics
+        self.time_delay = args.time_delay
 
         self.num_heads = args.num_heads
         self.modal_dim = args.modal_dim
@@ -34,7 +37,6 @@ class Experiment(GenericExperiment):
 
         self.feature_dimension = self.get_feature_dimension(self.config)
         self.multiplier = self.get_multiplier(self.config)
-        self.time_delay = self.get_time_delay(self.config)
 
         self.get_modality()
         self.continuous_label_dim = self.get_selected_continuous_label_dim()
@@ -73,15 +75,15 @@ class Experiment(GenericExperiment):
                               'learning_rate': self.learning_rate, 'min_learning_rate': self.min_learning_rate,
                               'patience': self.patience, 'batch_size': self.batch_size,
                               'criterion': criterion, 'factor': self.factor, 'verbose': True,
-                              'milestone': self.milestone, 'metrics': self.config['metrics'],
+                              'milestone': self.milestone, 'metrics': self.metrics,
                               'load_best_at_each_epoch': self.load_best_at_each_epoch,
-                              'save_plot': self.config['save_plot']}
+                              'save_plot': self.save_plot}
 
             trainer = Trainer(**trainer_kwards)
 
             parameter_controller = ResnetParamControl(trainer, gradual_release=self.gradual_release,
                                                       release_count=self.release_count,
-                                                      backbone_mode=self.backbone_mode)
+                                                      backbone_mode="ir")
 
             checkpoint_controller = Checkpointer(checkpoint_filename, trainer, parameter_controller, resume=self.resume)
 
@@ -108,22 +110,12 @@ class Experiment(GenericExperiment):
         self.init_randomness()
         modality = [modal for modal in self.modality if "continuous_label" not in modal]
 
-        # model = LeaderFollowerAttentionNetwork(backbone_state_dict=self.config['backbone']['state_dict'],
-        #                                        modality=modality, example_length=self.window_length,
-        #                                        kernel_size=self.config['tcn']['kernel_size'],
-        #                                        tcn_channel=self.config['tcn']['channels'],
-        #                                        root_dir=self.load_path, device=self.device)
-
         model = LeaderFollowerAttentionNetworkWithMultiHead(backbone_state_dict=self.config['backbone']['state_dict'],
-                                               modality=modality, example_length=self.window_length,
-                                               kernel_size=self.tcn_kernel_size,
-                                               tcn_channel=self.config['tcn']['channels'], modal_dim=self.modal_dim, num_heads=self.num_heads,
-                                               root_dir=self.load_path, device=self.device)
-
-        # model = LeaderFollowerAttentionNetworkWithIntraInterAttention(backbone_state_dict=self.config['backbone']['state_dict'], modality=modality,
-        #             example_length=self.window_length, tcn_attention=0,
-        #             kernel_size=self.config['tcn']['kernel_size'], tcn_channel=self.config['tcn']['channels'],
-        #             root_dir=self.load_path, device=self.device)
+                                                            modality=modality, example_length=self.window_length,
+                                                            kernel_size=self.tcn_kernel_size,
+                                                            tcn_channel=self.config['tcn']['channels'],
+                                                            modal_dim=self.modal_dim, num_heads=self.num_heads,
+                                                            root_dir=self.load_path, device=self.device)
 
         model.init()
         return model

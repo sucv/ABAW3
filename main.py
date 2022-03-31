@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     # 1. Experiment Setting
     # 1.1. Server
-    parser.add_argument('-gpu', default=2, type=int, help='Which gpu to use?')
+    parser.add_argument('-gpu', default=0, type=int, help='Which gpu to use?')
     parser.add_argument('-cpu', default=1, type=int, help='How many threads are allowed?')
     parser.add_argument('-high_performance_cluster', default=0, type=int, help='On high-performance server or not?'
                                                                                'If set to 1, then the gpu and cpu settings will be ignored.'
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     parser.add_argument('-resume', default=0, type=int, help='Resume from checkpoint?')
 
     # 1.5. Debug or not?
-    parser.add_argument('-debug', default=0, type=int, help='The number of trials to load for debugging. Set to 0 for non-debugging execution.')
+    parser.add_argument('-debug', default=1, type=int, help='The number of trials to load for debugging. Set to 0 for non-debugging execution.')
 
     # 1.6. What modality to use?
     #  Set to ['frame'] for unimodal and ['frame', 'mfcc', 'vggish' for multimodal. Using other features may cause bugs.
@@ -95,7 +95,7 @@ if __name__ == '__main__':
                              'The rear point will be duplicated to meet the original length.'
                              'This is used to compensate the human labeling delay.')
     parser.add_argument('-metrics', default=["rmse", "pcc", "ccc"], nargs="*", help='The evaluation metrics.')
-    parser.add_argument('-save_plot', default=0, type=int,
+    parser.add_argument('-save_plot', default=1, type=int,
                         help='Whether to plot the session-wise output/target or not?')
 
     args = parser.parse_args()
