@@ -18,7 +18,7 @@ In main.py:
 
 - Adjust the four paths in 1.2 for your machine.
     - `-data_path` should contain `compacted_48`, `dataset_info.pkl` and `mean_std_info.pkl`.
-        - `mean_std_info.pkl` keeps the mean and std for all the features on the 6 folds. You main need to calculate your own `mean_std_info.pkl` as the data partitioning may be different in across systems and environments. See 1.6 below.
+        - `mean_std_info.pkl` keeps the mean and std for all the features on the 6 folds. You may need to calculate your own `mean_std_info.pkl` as the data partitioning may be different across systems and environments. See 1.6 below.
     - `-load_path` should contain the backbone state dict.
     - `-save_path` can be anywhere appropriately in your machine.
     - `-python_package_path` should be `/path/to/the/code/ABAW3`.
@@ -50,7 +50,9 @@ Note that one single fold may take 2-3 days. So the following command may take m
 python main.py -folds_to_run 0 1 2 -emotion "valence" -stamp "cv"
 ```
 
-Therefore we strongly recommend to train only 1 fold at a time. Sometimes, the training may be stopped unexpectedly. To continue with the latest epoch, add `-resume 1` to the last command you were running like:
+Therefore we strongly recommend to specify `-folds_to_run` to only one fold. 
+
+Sometimes, the training may be stopped unexpectedly. To continue with the latest epoch, add `-resume 1` to the last command you were running like:
 
 ```
 python main.py -folds_to_run 0 -emotion "valence" -stamp "cv" -resume 1
