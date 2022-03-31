@@ -137,7 +137,7 @@ class LeaderFollowerAttentionNetworkWithMultiHead(nn.Module):
         follower = self.fusion(x)   # [batch, length, 96 (32 x 3)]
 
         x = torch.cat((x[self.modality[0]], follower), dim=-1) # [batch, length, 244 (32 x 3 + 128)]
-        x = self.regressor(x) # [batch, length, 1] # [batch, length, 1]
+        x = self.regressor(x) # [batch, length, 1] 
 
         return x
 
