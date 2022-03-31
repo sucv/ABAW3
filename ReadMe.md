@@ -14,7 +14,7 @@ https://drive.google.com/drive/folders/18SgsKxmEcNaK6LeVMaRaloBZaMMHvJhK?usp=sha
 
 ### Specify the settings
 
-In main.py:
+In `main.py`:
 
 - Adjust the four paths in 1.2 for your machine.
     - `-data_path` should contain `compacted_48`, `dataset_info.pkl` and `mean_std_info.pkl`.
@@ -28,8 +28,10 @@ In main.py:
 - In 1.6, in practice, if you are sure that the data would be split to the same exact 6 folds, then set it to 1 for only the first time, and set it to 0 for further run. So that the further training can skip the time-consuming calculation (up to 20-40 mins).
 - In 1.7, specify `-emotion` to either `arousal` or `valence`.
 - In 2.1, specify `-folds_to_run` to 0-5. For example, `-folds_to_run 0` runs fold 0. `-folds_to_run 0 1 2` runs fold 0, fold 1, and fold 2 in a row.
-- In `configs.py`:
-    - specify `state_dict` of `backbone` as the backbone filename.
+
+In `configs.py`:
+
+- specify `state_dict` of `backbone` as the backbone filename.
 
 
 ### Run the code
