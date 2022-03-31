@@ -31,7 +31,7 @@ In `main.py`:
 
 In `configs.py`:
 
-- specify `state_dict` of `backbone` as the backbone filename.
+- Specify `state_dict` of `backbone` as the backbone filename.
 
 
 ### Run the code
