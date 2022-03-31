@@ -115,12 +115,12 @@ class LeaderFollowerAttentionNetworkWithMultiHead(nn.Module):
     def forward(self, x):
 
         if 'video' in x:
-            batch_size, _, channel, width, height = x['video'].shape
-            x['video'] = x['video'].view(-1, channel, width, height)
-            x['video'] = self.spatial(x['video'])
-            x['video'] = x['video'].view(batch_size, self.example_length, -1).transpose(1, 2).contiguous()
+            batch_size, _, channel, width, height = x['video'].shape # [batch, length, 3, 40, 40]
+            x['video'] = x['video'].view(-1, channel, width, height) # [batch x length, 3, 40, 40]
+            x['video'] = self.spatial(x['video']) # [batch x length, 512]
+            x['video'] = x['video'].view(batch_size, self.example_length, -1).transpose(1, 2).contiguous() # [batch, 512, length]
         else:
-            batch_size, _, _, _ = x[self.modality[0]].shape
+            batch_size, _, _, _ = x[self.modality[0]].shape # [batch, 1, length, input_dim]
 
         for modal in self.modality:
             if modal != 'video':
@@ -131,13 +131,13 @@ class LeaderFollowerAttentionNetworkWithMultiHead(nn.Module):
                     x[modal] = x[modal].squeeze()[None, :, :].transpose(1, 2).contiguous().float()
 
             # Three parallel TCNs
-            x[modal] = self.temporal[modal](x[modal]).transpose(1, 2).contiguous()
+            x[modal] = self.temporal[modal](x[modal]).transpose(1, 2).contiguous() # [batch, length, temporal_feature_dim]
 
         # Co-attention fusion block
-        follower = self.fusion(x)
+        follower = self.fusion(x)   # [batch, length, 96 (32 x 3)]
 
-        x = torch.cat((x[self.modality[0]], follower), dim=-1)
-        x = self.regressor(x)
+        x = torch.cat((x[self.modality[0]], follower), dim=-1) # [batch, length, 244 (32 x 3 + 128)]
+        x = self.regressor(x) # [batch, length, 1] # [batch, length, 1]
 
         return x
 
