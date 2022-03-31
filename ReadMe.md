@@ -1,4 +1,4 @@
-### Please cite [our paper](https://arxiv.org/pdf/2203.13031.pdf) our paper
+### Please cite [our paper](https://arxiv.org/pdf/2203.13031.pdf) 
 
 ```
 @article{zhang2022continuous,
