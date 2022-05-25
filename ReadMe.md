@@ -17,10 +17,9 @@ pip install tqdm matplotlib scipy pandas
 
 ### Download data and backbone state dict
 
-https://drive.google.com/drive/folders/18SgsKxmEcNaK6LeVMaRaloBZaMMHvJhK?usp=sharing
+https://drive.google.com/drive/folders/1HLpi5hoDEsaFN_Up3aVSC40jIU0g10gU?usp=sharing
 
 Only the backbone state dict is available. As for the data, please access via the ABAW organizer.
-
 
 ### Specify the settings
 
