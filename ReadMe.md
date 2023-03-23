@@ -55,15 +55,6 @@ The results will be saved in your specified `-save_path`, which include:
 - trained model state dict and the checkpoint.
 - predictions on unseen partition.
 
-Please carefully download them to your local machine, compact them and send to me.
-
-### Report the progress
-
-In the google doc below, kindly report your status in the table from Progress Billboard.
-
-https://docs.google.com/document/d/1OkNZp9j2iaj-oun2D8obWxsDieQs6SGraVrQe-AH2DI/edit?usp=sharing
-
-## Thank you for your time!
 
 
 
