@@ -9,7 +9,7 @@ pip install tqdm matplotlib scipy pandas
 
 ### Code for preprocessing
 
-[url](https://drive.google.com/file/d/1_5HkqdQrf388JJvLAH1B_d7ctZLWy1KE/view?usp=sharing)
+[url](https://drive.google.com/file/d/1_5HkqdQrf388JJvLAH1B_d7ctZLWy1KE/view?usp=drive_link)
 
 
 ### Specify the settings
