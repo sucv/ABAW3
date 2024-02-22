@@ -1,4 +1,4 @@
-
+> During my PhD I struggled for finding a working pipeline for my emotion recognition project, because I was new to deep learning, I didn't have seniors to follow, and the ER community is not as popular/open as others. I hope the code here can be helpful for those lost souls.
 
 ### Conda environment
 
