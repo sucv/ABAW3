@@ -1,4 +1,4 @@
-> During my PhD I struggled for finding an end-to-end working pipeline for my emotion recognition project. I was new to deep learning, I didn't have seniors to follow, and the ER community is not as popular/open as others. Then a good soul shared his code and models to me. I was salvaged and survived my PhD.
+> During my PhD I struggled for finding an end-to-end working pipeline for my emotion recognition project. I was new to deep learning, I didn't have seniors to follow, and the ER community is not as popular/open as others. Then a good soul shared his code and models with me. I was salvaged and survived my PhD.
 > I hope the code and model state here can be helpful for those lost souls.
 
 ### Conda environment
